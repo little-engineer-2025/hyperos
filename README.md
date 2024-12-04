@@ -31,6 +31,8 @@ Before you run the sample program, you need to download an ISO installation imag
 
 ## Configure the sample code project
 
+- Note: The default deployment target is macOS14, if you need to build for a different version of macOS you’ll need to change the deployment target as appropriate.
+
 1. Launch Xcode and open `GUILinuxVirtualMachineSampleApp.xcodeproj`.
 
 2. Navigate to the Signing & Capabilities panel and select your team ID.
@@ -141,6 +143,12 @@ Before calling the VM's [`start`][method_start] method, the sample app configure
 
 ``` swift
 self.virtualMachineView.virtualMachine = self.virtualMachine
+
+if #available(macOS 14.0, *) {
+    // Configure the app to automatically respond changes in the display size.
+    self.virtualMachineView.automaticallyReconfiguresDisplay = true
+}
+
 self.virtualMachine.delegate = self
 self.virtualMachine.start(completionHandler: { (result) in
     switch result {
@@ -152,3 +160,5 @@ self.virtualMachine.start(completionHandler: { (result) in
     }
 })
 ```
+
+The app sets the display to automatically resize when the window size changes.
