@@ -7,6 +7,17 @@ The app delegate that sets up and starts the virtual machine.
 
 import Virtualization
 
+struct VMData {
+    var machineIdentifier:String
+    var diskImageURL: URL
+    var efiVariableStoreURL: URL
+    var machineIdentifier: String
+    var memory:Int64
+    var bundleName:String
+    var diskImage:String
+    var efiVariableStore:String
+}
+
 let vmBundlePath = NSHomeDirectory() + "/GUI Linux VM.bundle/"
 let mainDiskImagePath = vmBundlePath + "Disk.img"
 let efiVariableStorePath = vmBundlePath + "NVRAM"
@@ -14,6 +25,7 @@ let machineIdentifierPath = vmBundlePath + "MachineIdentifier"
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegate {
+    @IBOutlet weak var wizard: NSWindow!
 
     @IBOutlet var window: NSWindow!
 
@@ -241,7 +253,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegate {
                 switch result {
                 case let .failure(error):
                     fatalError("Virtual machine failed to start with error: \(error)")
-
                 default:
                     print("Virtual machine successfully started.")
                 }
@@ -298,6 +309,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegate {
     }
 
     func virtualMachine(_ virtualMachine: VZVirtualMachine, networkDevice: VZNetworkDevice, attachmentWasDisconnectedWithError error: Error) {
-        print("Netowrk attachment was disconnected with error: \(error.localizedDescription)")
+        print("Network attachment was disconnected with error: \(error.localizedDescription)")
     }
 }
