@@ -1,8 +1,38 @@
-# Running GUI Linux in a virtual machine on a Mac
+# VM Management using hypervisor framework on a Mac
 
 Install and run GUI Linux in a virtual machine using the Virtualization framework.
 
 ## Overview
+
+This code is a modified version from: https://developer.apple.com/documentation/virtualization/running-gui-linux-in-a-virtual-machine-on-a-mac
+thanks to 
+
+Intentions:
+
+- Support multiple VMs and manage them.
+  - Common directory store all the VM bundles.
+- Add a wizard to create new VM.
+  - Basic version.
+  - Add support to add devices.
+    - Virtual disks.
+    - Passthrough USB devices.
+    - Add shared folders.
+- Add support for macos guest.
+  - Install and run.
+  - Run in DFU mode.
+  - Run in Recovery mode.
+- Add auto download ISO, and check them.
+- Add support for Windows guest (platform requires TPM 2)
+- Add support for OpenBSD guest.
+- Add support for NetBSD guest.
+- Add support for FreeBSD guest.
+- Add Serial port for terminal only VMs
+- Add CLI tool hyperosctl => automation from the cli.
+- Add malware behaviors analysis:
+  - Wizard to create sandboxes with CAPE v2 (Linux, Windows, macos)
+  - Add automation to analyze a sample, and extract report.
+
+---
 
 This sample code project demonstrates how to install and run GUI Linux virtual machines (VMs) on a Mac.
 
@@ -162,3 +192,9 @@ self.virtualMachine.start(completionHandler: { (result) in
 ```
 
 The app sets the display to automatically resize when the window size changes.
+
+## References
+
+- [Running GUI Linux in a VM on a mac](https://developer.apple.com/documentation/virtualization/running-gui-linux-in-a-virtual-machine-on-a-mac).
+- [Demostrate Hypervisor.Framework usage in Apple Silicon](https://gist.github.com/imbushuo/51b09e61ecd7b7ac063853ad65cedf34).
+
