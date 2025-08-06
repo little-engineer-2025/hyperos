@@ -11,7 +11,6 @@ struct VMData {
     var machineIdentifier:String
     var diskImageURL: URL
     var efiVariableStoreURL: URL
-    var machineIdentifier: String
     var memory:Int64
     var bundleName:String
     var diskImage:String
