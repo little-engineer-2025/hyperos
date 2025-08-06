@@ -355,7 +355,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                             <clipView key="contentView" drawsBackground="NO" id="QyZ-Lw-Nr1">
                                                 <rect key="frame" x="0.0" y="0.0" width="171" height="307"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" indentationPerLevel="13" outlineTableColumn="S0D-eT-5S1" id="KVz-Gs-CpS">
                                                         <rect key="frame" x="0.0" y="0.0" width="171" height="307"/>
@@ -394,7 +394,7 @@
                                                                             <outlet property="textField" destination="qoW-CA-IKt" id="dUD-tM-1A3"/>
                                                                         </connections>
                                                                     </tableCellView>
-                                                                    <tableCellView identifier="DataCell" id="R3a-Bw-FKW">
+                                                                    <tableCellView identifier="DisksCell" id="R3a-Bw-FKW">
                                                                         <rect key="frame" x="11" y="17" width="148" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
@@ -418,7 +418,7 @@
                                                                             <outlet property="textField" destination="xrs-sm-d6I" id="R8W-jh-XZ0"/>
                                                                         </connections>
                                                                     </tableCellView>
-                                                                    <tableCellView identifier="DataCell" id="gSb-Jp-gsg">
+                                                                    <tableCellView identifier="NetworkCell" id="gSb-Jp-gsg">
                                                                         <rect key="frame" x="11" y="34" width="148" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
@@ -442,7 +442,7 @@
                                                                             <outlet property="textField" destination="pY6-GV-eSb" id="Fva-jz-fmw"/>
                                                                         </connections>
                                                                     </tableCellView>
-                                                                    <tableCellView identifier="DataCell" id="xIp-UI-pQA">
+                                                                    <tableCellView identifier="USBCell" id="xIp-UI-pQA">
                                                                         <rect key="frame" x="11" y="51" width="148" height="17"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <subviews>
