@@ -14,7 +14,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="hyperosApp" customModuleProvider="target">
+        <customObject id="Voe-Tx-rLC" customClass="VMWindowDelegate" customModule="hyperosApp" customModuleProvider="target">
             <connections>
                 <outlet property="virtualMachineView" destination="EiT-Mj-1SZ" id="IO0-2v-dc2"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
@@ -24,11 +24,11 @@
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
             <items>
-                <menuItem title="hyperosApp" id="1Xt-HY-uBw">
+                <menuItem title="HyperosApp" id="1Xt-HY-uBw">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="hyperosApp" systemMenu="apple" id="uQy-DD-JDr">
+                    <menu key="submenu" title="HyperosApp" systemMenu="apple" id="uQy-DD-JDr">
                         <items>
-                            <menuItem title="About hyperosApp" id="5kV-Vb-QxS">
+                            <menuItem title="About HyperosApp" id="5kV-Vb-QxS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-1" id="Exp-CZ-Vem"/>
@@ -42,7 +42,7 @@
                                 <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
-                            <menuItem title="Hide hyperosApp" keyEquivalent="h" id="Olw-nP-bQN">
+                            <menuItem title="Hide HyperosApp" keyEquivalent="h" id="Olw-nP-bQN">
                                 <connections>
                                     <action selector="hide:" target="-1" id="PnN-Uc-m68"/>
                                 </connections>
@@ -60,13 +60,111 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                            <menuItem title="Quit hyperosApp" keyEquivalent="q" id="4sb-4s-VLi">
+                            <menuItem title="Quit HyperosApp" keyEquivalent="q" id="4sb-4s-VLi">
                                 <connections>
                                     <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
                                 </connections>
                             </menuItem>
                         </items>
                     </menu>
+                </menuItem>
+                <menuItem title="Manage" id="uCk-22-UGZ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Manage" systemMenu="apple" id="rWJ-xJ-9P0">
+                        <items>
+                            <menuItem title="Create VM..." id="sdk-uu-Zpo">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="orderFrontStandardAboutPanel:" target="-1" id="ZW2-6k-p6X"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Edit..." id="jp6-nx-R4Z">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="Delete" id="aKh-SW-Xxe">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="8gg-h4-zyG"/>
+                            <menuItem title="Network..." id="W7d-nl-zah">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="terminate:" target="-1" id="S4b-0A-XRr"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                    <connections>
+                        <action selector="orderFrontStandardAboutPanel:" target="-1" id="1p9-06-exh"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="VM" id="e3E-t8-dHW">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="VM" systemMenu="apple" id="cGD-cS-FWO">
+                        <items>
+                            <menuItem title="Start" id="nSG-4e-sTY">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="hide:" target="-1" id="Xuj-VY-TpJ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Pause" id="JHX-yD-96a">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="hideOtherApplications:" target="-1" id="y4j-Yn-Y7x"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Resume" id="N4U-Ws-oVy">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="oEr-Wx-RyA"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Stop" id="z9o-Bk-neN">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="tUi-Lr-U3D"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="FI1-ps-OEg"/>
+                            <menuItem title="Create Snapshot" id="bIG-ER-JPO">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="Tew-NB-JiE"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Restore Snapshot" id="Zjs-0z-qvw">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="vzM-tA-iPY"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Edit Snapshots..." id="o5T-HJ-6gx">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="fg7-1S-wYI"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                    <connections>
+                        <action selector="orderFrontStandardAboutPanel:" target="-1" id="RfQ-16-nxU"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Sandbox" enabled="NO" id="WM5-8O-YPk">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Sandbox" systemMenu="apple" id="h4D-aV-0fe">
+                        <items>
+                            <menuItem title="Analyze Sample..." enabled="NO" id="Zrh-uB-Juu">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="hide:" target="-1" id="8CT-6o-xdo"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                    <connections>
+                        <action selector="orderFrontStandardAboutPanel:" target="-1" id="Oai-Gy-M6V"/>
+                    </connections>
                 </menuItem>
             </items>
             <point key="canvasLocation" x="244" y="-104"/>
@@ -355,7 +453,7 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                             <clipView key="contentView" drawsBackground="NO" id="QyZ-Lw-Nr1">
                                                 <rect key="frame" x="0.0" y="0.0" width="171" height="307"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" indentationPerLevel="13" outlineTableColumn="S0D-eT-5S1" id="KVz-Gs-CpS">
                                                         <rect key="frame" x="0.0" y="0.0" width="171" height="307"/>

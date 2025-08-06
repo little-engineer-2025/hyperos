@@ -5,7 +5,6 @@ Install and run GUI Linux in a virtual machine using the Virtualization framewor
 ## Overview
 
 This code is a modified version from: https://developer.apple.com/documentation/virtualization/running-gui-linux-in-a-virtual-machine-on-a-mac
-thanks to 
 
 Intentions:
 
@@ -31,6 +30,36 @@ Intentions:
 - Add malware behaviors analysis:
   - Wizard to create sandboxes with CAPE v2 (Linux, Windows, macos)
   - Add automation to analyze a sample, and extract report.
+- Encrypt VM Disk.
+  - Creation of encrypted.
+  - Integrate with keychain (store keys encrypted)
+- Confidential VM? (can we use confidential computing)
+- Network manager
+  - Create new virtual networks and topology.
+    - Define virtual switches.
+    - Add VM interfaces to the right switch.
+    - Add DHCP server for automatic configuration.
+      - Edit DHCP options for the given network.
+--- <!-- Advanced features -->
+    - Add domain server.
+      - Add Bind Server.
+      - Add CA Issuer.
+        - Add ACME support.
+      - Add DNSSEC support.
+      - Add DoT support.
+      - Add DoH support.
+    - Auto-enroll new VMs on domain.
+      - automation per OS for enrolling into the domain server.
+      - Automation of hosts policies and configuration.
+    - Add monitoring service:
+      - Gather cpu usage.
+      - Gather memory usage.
+      - Gather audit logs.
+        - Add advanced monitoring agent.
+
+---
+
+> "One ring to govern every host".
 
 ---
 

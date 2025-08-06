@@ -23,7 +23,7 @@ let efiVariableStorePath = vmBundlePath + "NVRAM"
 let machineIdentifierPath = vmBundlePath + "MachineIdentifier"
 
 @main
-class AppDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegate {
+class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegate {
     @IBOutlet weak var wizard: NSWindow!
 
     @IBOutlet var window: NSWindow!

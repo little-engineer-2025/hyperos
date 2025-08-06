@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		8F0313B227CB143B00360D7E /* Virtualization.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F0313B127CB143B00360D7E /* Virtualization.framework */; };
-		8FF8298D27500C060037FA83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF8298C27500C060037FA83 /* AppDelegate.swift */; };
+		8FF8298D27500C060037FA83 /* VMWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF8298C27500C060037FA83 /* VMWindowDelegate.swift */; };
 		8FF8298F27500C070037FA83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FF8298E27500C070037FA83 /* Assets.xcassets */; };
 		8FF8299227500C070037FA83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8FF8299027500C070037FA83 /* MainMenu.xib */; };
+		B3917B8A2E435E770082C557 /* HyperosAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3917B892E435E770082C557 /* HyperosAppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,10 +20,11 @@
 		8F0313B127CB143B00360D7E /* Virtualization.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Virtualization.framework; path = System/Library/Frameworks/Virtualization.framework; sourceTree = SDKROOT; };
 		8FDC7765280E2517002AA4ED /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8FF8298927500C060037FA83 /* hyperosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hyperosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FF8298C27500C060037FA83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8FF8298C27500C060037FA83 /* VMWindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VMWindowDelegate.swift; sourceTree = "<group>"; };
 		8FF8298E27500C070037FA83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FF8299127500C070037FA83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8FF8299327500C070037FA83 /* hyperosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hyperosApp.entitlements; sourceTree = "<group>"; };
+		B3917B892E435E770082C557 /* HyperosAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperosAppDelegate.swift; sourceTree = "<group>"; };
 		E489E24B87B74AAC6D64B249 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,10 +72,11 @@
 			isa = PBXGroup;
 			children = (
 				8FDC7765280E2517002AA4ED /* Info.plist */,
-				8FF8298C27500C060037FA83 /* AppDelegate.swift */,
+				8FF8298C27500C060037FA83 /* VMWindowDelegate.swift */,
 				8FF8298E27500C070037FA83 /* Assets.xcassets */,
 				8FF8299027500C070037FA83 /* MainMenu.xib */,
 				8FF8299327500C070037FA83 /* hyperosApp.entitlements */,
+				B3917B892E435E770082C557 /* HyperosAppDelegate.swift */,
 			);
 			path = hyperosApp;
 			sourceTree = "<group>";
@@ -166,7 +169,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FF8298D27500C060037FA83 /* AppDelegate.swift in Sources */,
+				8FF8298D27500C060037FA83 /* VMWindowDelegate.swift in Sources */,
+				B3917B8A2E435E770082C557 /* HyperosAppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
