@@ -190,12 +190,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="zRM-gY-bNi">
-                        <rect key="frame" x="0.0" y="383" width="418" height="102"/>
+                        <rect key="frame" x="0.0" y="455" width="418" height="30"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <rows>
                             <gridRow id="nZn-jg-ZGc"/>
-                            <gridRow id="Or4-D1-dQq"/>
-                            <gridRow id="VuM-6X-J5D"/>
                         </rows>
                         <columns>
                             <gridColumn id="Dyl-Ej-HZs"/>
@@ -208,14 +206,6 @@
                             <gridCell row="nZn-jg-ZGc" column="VRt-kW-tSx" id="Bhu-0D-oAk"/>
                             <gridCell row="nZn-jg-ZGc" column="W8Z-nu-E4r" id="baN-bv-TMo"/>
                             <gridCell row="nZn-jg-ZGc" column="9l2-q4-2fC" id="nGI-Vt-lmU"/>
-                            <gridCell row="Or4-D1-dQq" column="Dyl-Ej-HZs" id="355-xa-fVM"/>
-                            <gridCell row="Or4-D1-dQq" column="VRt-kW-tSx" id="VpY-9o-5VP"/>
-                            <gridCell row="Or4-D1-dQq" column="W8Z-nu-E4r" id="Tax-bC-UGb"/>
-                            <gridCell row="Or4-D1-dQq" column="9l2-q4-2fC" id="hNT-xQ-yER"/>
-                            <gridCell row="VuM-6X-J5D" column="Dyl-Ej-HZs" id="J7V-hh-kTk"/>
-                            <gridCell row="VuM-6X-J5D" column="VRt-kW-tSx" id="O47-gS-cff"/>
-                            <gridCell row="VuM-6X-J5D" column="W8Z-nu-E4r" id="19M-KM-t4G"/>
-                            <gridCell row="VuM-6X-J5D" column="9l2-q4-2fC" id="kWL-HS-HcY"/>
                         </gridCells>
                     </gridView>
                 </subviews>

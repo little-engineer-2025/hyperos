@@ -7,40 +7,53 @@ The app delegate that sets up and starts the virtual machine.
 
 import Virtualization
 
-struct VMData {
-    var machineIdentifier:String
-    var diskImageURL: URL
-    var efiVariableStoreURL: URL
-    var memory:Int64
-    var bundleName:String
-    var diskImage:String
-    var efiVariableStore:String
-}
-
-let vmBundlePath = NSHomeDirectory() + "/GUI Linux VM.bundle/"
-let mainDiskImagePath = vmBundlePath + "Disk.img"
-let efiVariableStorePath = vmBundlePath + "NVRAM"
-let machineIdentifierPath = vmBundlePath + "MachineIdentifier"
+let bundleExt = ".bundle"
+//let vmBundlePath = vmPath + "/GUI Linux VM.bundle/"
+//let mainDiskImagePath = vmBundlePath + "Disk.img"
+//let efiVariableStorePath = vmBundlePath + "NVRAM"
+//let machineIdentifierPath = vmBundlePath + "MachineIdentifier"
 
 @main
 class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegate {
+    private var vmData:VMData
     @IBOutlet weak var wizard: NSWindow!
-
+    
     @IBOutlet var window: NSWindow!
-
+    
     @IBOutlet weak var virtualMachineView: VZVirtualMachineView!
-
+    
     private var virtualMachine: VZVirtualMachine!
-
-    private var installerISOPath: URL?
-
-    private var needsInstall = true
-
+    
+    //    private var installerISOPath: URL?
+    
+    //    private var needsInstall = true
+    
     override init() {
+        self.vmData = VMDefaultLinux()
         super.init()
     }
-
-    private func createVMBundle() {
+    
+    private func bundlePath() -> String {
+        let result = vmPath + "/" + self.vmData.bundleName + bundleExt
+        return result
+    }
+    
+    private func machineIdentifierPath() -> String {
+        let result = self.bundlePath() + "/" + self.vmData.machineIdentifierPath
+        return result
+    }
+    
+    private func efiVariableStorePath() -> String {
+        let result = self.bundlePath() + "/" + "NVRAM"
+        return result
+    }
+    
+    private func mainDiskImagePath() -> String {
+        let result = self.bundlePath() + "/" + self.vmData.diskImagePath
+        return result
+    }
+    
+    private func createVMBundle(atPath vmBundlePath: String) {
         do {
             try FileManager.default.createDirectory(atPath: vmBundlePath, withIntermediateDirectories: false)
         } catch {
@@ -49,7 +62,7 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
     }
 
     // Create an empty disk image for the virtual machine.
-    private func createMainDiskImage() {
+    private func createMainDiskImage(atPath mainDiskImagePath:String) {
         let diskCreated = FileManager.default.createFile(atPath: mainDiskImagePath, contents: nil, attributes: nil)
         if !diskCreated {
             fatalError("Failed to create the main disk image.")
@@ -70,7 +83,7 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
     // MARK: Create device configuration objects for the virtual machine.
 
     private func createBlockDeviceConfiguration() -> VZVirtioBlockDeviceConfiguration {
-        guard let mainDiskAttachment = try? VZDiskImageStorageDeviceAttachment(url: URL(fileURLWithPath: mainDiskImagePath), readOnly: false) else {
+        guard let mainDiskAttachment = try? VZDiskImageStorageDeviceAttachment(url: URL(fileURLWithPath: self.mainDiskImagePath()), readOnly: false) else {
             fatalError("Failed to create main disk attachment.")
         }
 
@@ -80,16 +93,18 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
 
     private func computeCPUCount() -> Int {
         let totalAvailableCPUs = ProcessInfo.processInfo.processorCount
+        var virtualCPUCount = self.vmData.cpus
+        virtualCPUCount = min(virtualCPUCount, totalAvailableCPUs - 1)
+        virtualCPUCount = max(virtualCPUCount, 1)
 
-        var virtualCPUCount = totalAvailableCPUs <= 1 ? 1 : totalAvailableCPUs - 1
         virtualCPUCount = max(virtualCPUCount, VZVirtualMachineConfiguration.minimumAllowedCPUCount)
         virtualCPUCount = min(virtualCPUCount, VZVirtualMachineConfiguration.maximumAllowedCPUCount)
-
+        
         return virtualCPUCount
     }
 
     private func computeMemorySize() -> UInt64 {
-        var memorySize = (4 * 1024 * 1024 * 1024) as UInt64 // 4 GiB
+        var memorySize = UInt64(self.vmData.memory)
         memorySize = max(memorySize, VZVirtualMachineConfiguration.minimumAllowedMemorySize)
         memorySize = min(memorySize, VZVirtualMachineConfiguration.maximumAllowedMemorySize)
 
@@ -100,13 +115,13 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
         let machineIdentifier = VZGenericMachineIdentifier()
 
         // Store the machine identifier to disk so you can retrieve it for subsequent boots.
-        try! machineIdentifier.dataRepresentation.write(to: URL(fileURLWithPath: machineIdentifierPath))
+        try! machineIdentifier.dataRepresentation.write(to: URL(fileURLWithPath: self.machineIdentifierPath()))
         return machineIdentifier
     }
 
     private func retrieveMachineIdentifier() -> VZGenericMachineIdentifier {
         // Retrieve the machine identifier.
-        guard let machineIdentifierData = try? Data(contentsOf: URL(fileURLWithPath: machineIdentifierPath)) else {
+        guard let machineIdentifierData = try? Data(contentsOf: URL(fileURLWithPath: self.machineIdentifierPath())) else {
             fatalError("Failed to retrieve the machine identifier data.")
         }
 
@@ -118,7 +133,7 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
     }
 
     private func createEFIVariableStore() -> VZEFIVariableStore {
-        guard let efiVariableStore = try? VZEFIVariableStore(creatingVariableStoreAt: URL(fileURLWithPath: efiVariableStorePath)) else {
+        guard let efiVariableStore = try? VZEFIVariableStore(creatingVariableStoreAt: URL(fileURLWithPath: self.efiVariableStorePath())) else {
             fatalError("Failed to create the EFI variable store.")
         }
 
@@ -126,15 +141,15 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
     }
 
     private func retrieveEFIVariableStore() -> VZEFIVariableStore {
-        if !FileManager.default.fileExists(atPath: efiVariableStorePath) {
+        if !FileManager.default.fileExists(atPath: self.efiVariableStorePath()) {
             fatalError("EFI variable store does not exist.")
         }
 
-        return VZEFIVariableStore(url: URL(fileURLWithPath: efiVariableStorePath))
+        return VZEFIVariableStore(url: URL(fileURLWithPath: self.efiVariableStorePath()))
     }
 
     private func createUSBMassStorageDeviceConfiguration() -> VZUSBMassStorageDeviceConfiguration {
-        guard let intallerDiskAttachment = try? VZDiskImageStorageDeviceAttachment(url: installerISOPath!, readOnly: true) else {
+        guard let intallerDiskAttachment = try? VZDiskImageStorageDeviceAttachment(url: self.vmData.installerISOPath!, readOnly: true) else {
             fatalError("Failed to create installer's disk attachment.")
         }
 
@@ -200,7 +215,7 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
         let bootloader = VZEFIBootLoader()
         let disksArray = NSMutableArray()
 
-        if needsInstall {
+        if self.vmData.needsInstall {
             // This is a fresh install: Create a new machine identifier and EFI variable store,
             // and configure a USB mass storage device to boot the ISO image.
             platform.machineIdentifier = createAndSaveMachineIdentifier()
@@ -232,7 +247,7 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
         virtualMachineConfiguration.consoleDevices = [createSpiceAgentConsoleDeviceConfiguration()]
 
         try! virtualMachineConfiguration.validate()
-        virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
+        self.virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
     }
 
     // MARK: Start the virtual machine.
@@ -266,10 +281,11 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
         // one and install Linux onto an empty disk image from the ISO image,
         // otherwise, it tries to directly boot from the disk image inside
         // the "GUI Linux VM.bundle".
-        if !FileManager.default.fileExists(atPath: vmBundlePath) {
-            needsInstall = true
-            createVMBundle()
-            createMainDiskImage()
+        let bundlePath = self.bundlePath()
+        if !FileManager.default.fileExists(atPath: bundlePath) {
+            self.vmData.needsInstall = true
+            createVMBundle(atPath: bundlePath)
+            createMainDiskImage(atPath: self.mainDiskImagePath())
 
             let openPanel = NSOpenPanel()
             openPanel.canChooseFiles = true
@@ -279,14 +295,15 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
 
             openPanel.begin { (result) -> Void in
                 if result == .OK {
-                    self.installerISOPath = openPanel.url!
+                    // self.installerISOPath = openPanel.url!
+                    self.vmData.installerISOPath = openPanel.url!
                     self.configureAndStartVirtualMachine()
                 } else {
                     fatalError("ISO file not selected.")
                 }
             }
         } else {
-            needsInstall = false
+            self.vmData.needsInstall = false
             configureAndStartVirtualMachine()
         }
     }
