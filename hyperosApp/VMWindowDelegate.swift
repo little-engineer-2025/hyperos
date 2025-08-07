@@ -8,10 +8,6 @@ The app delegate that sets up and starts the virtual machine.
 import Virtualization
 
 let bundleExt = ".bundle"
-//let vmBundlePath = vmPath + "/GUI Linux VM.bundle/"
-//let mainDiskImagePath = vmBundlePath + "Disk.img"
-//let efiVariableStorePath = vmBundlePath + "NVRAM"
-//let machineIdentifierPath = vmBundlePath + "MachineIdentifier"
 
 @main
 class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegate {
@@ -23,11 +19,7 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
     @IBOutlet weak var virtualMachineView: VZVirtualMachineView!
     
     private var virtualMachine: VZVirtualMachine!
-    
-    //    private var installerISOPath: URL?
-    
-    //    private var needsInstall = true
-    
+
     override init() {
         self.vmData = VMDefaultLinux()
         super.init()
@@ -295,7 +287,6 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
 
             openPanel.begin { (result) -> Void in
                 if result == .OK {
-                    // self.installerISOPath = openPanel.url!
                     self.vmData.installerISOPath = openPanel.url!
                     self.configureAndStartVirtualMachine()
                 } else {
