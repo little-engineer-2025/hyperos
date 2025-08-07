@@ -85,7 +85,7 @@ func VMDefaultMacOS() -> VMData {
     let minCPU = VZVirtualMachineConfiguration.minimumAllowedCPUCount
     let minMemory = UInt64(VZVirtualMachineConfiguration.minimumAllowedMemorySize * 1024)
     let minDiskSize = Int64()
-    var data = VMData(
+    let data = VMData(
         vmType: .MacOS,
         bundleName: generateBundleName(),
         machineIdentifierPath: "MachineIdentifier",
@@ -109,7 +109,7 @@ func VMDefaultBSD() -> VMData {
     let minCPU = VZVirtualMachineConfiguration.minimumAllowedCPUCount
     let minMemory = UInt64(VZVirtualMachineConfiguration.minimumAllowedMemorySize * 1024)
     let minDiskSize = Int64(10*1024*1024*1024)
-    var data = VMData(
+    let data = VMData(
         vmType: .BSD,
         bundleName: generateBundleName(),
         machineIdentifierPath: "MachineIdentifier",
