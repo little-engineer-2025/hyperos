@@ -190,14 +190,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <gridView fixedFrame="YES" xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="zRM-gY-bNi">
-                        <rect key="frame" x="0.0" y="455" width="418" height="30"/>
+                        <rect key="frame" x="0.0" y="363" width="561" height="122"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <rows>
-                            <gridRow id="nZn-jg-ZGc"/>
+                            <gridRow height="122" id="nZn-jg-ZGc"/>
                         </rows>
                         <columns>
-                            <gridColumn id="Dyl-Ej-HZs"/>
-                            <gridColumn id="VRt-kW-tSx"/>
+                            <gridColumn width="157" id="Dyl-Ej-HZs"/>
+                            <gridColumn width="186" id="VRt-kW-tSx"/>
                             <gridColumn id="W8Z-nu-E4r"/>
                             <gridColumn id="9l2-q4-2fC"/>
                         </columns>
