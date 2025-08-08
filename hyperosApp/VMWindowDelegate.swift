@@ -154,6 +154,12 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
 
         return networkDevice
     }
+    
+    @available(macOS 15.0, *)
+    private func createUSBDeviceConfiguration() -> [VZUSBControllerConfiguration] {
+        let usbControllers = VZXHCIControllerConfiguration()
+        return [usbControllers]
+    }
 
     private func createGraphicsDeviceConfiguration() -> VZVirtioGraphicsDeviceConfiguration {
         let graphicsDevice = VZVirtioGraphicsDeviceConfiguration()
@@ -236,7 +242,10 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
 
         virtualMachineConfiguration.keyboards = [VZUSBKeyboardConfiguration()]
         virtualMachineConfiguration.pointingDevices = [VZUSBScreenCoordinatePointingDeviceConfiguration()]
-        virtualMachineConfiguration.consoleDevices = [createSpiceAgentConsoleDeviceConfiguration()]
+        virtualMachineConfiguration.consoleDevices = [self.createSpiceAgentConsoleDeviceConfiguration()]
+        if #available(macOS 15.0, *) {
+            virtualMachineConfiguration.usbControllers = self.createUSBDeviceConfiguration()
+        }
 
         try! virtualMachineConfiguration.validate()
         self.virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
@@ -261,6 +270,15 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
                     fatalError("Virtual machine failed to start with error: \(error)")
                 default:
                     print("Virtual machine successfully started.")
+                    print("USB detected devices:")
+                    if #available(macOS 15.0, *) {
+                        for usbController in self.virtualMachine.usbControllers.publisher.sequence {
+                            print("className=\(usbController.className); classDescription=\(usbController.classDescription)")
+                            for device in usbController.usbDevices {
+                                print("uuid=\(device.uuid); description=\(device.description)")
+                            }
+                        }
+                    }
                 }
             })
         }
