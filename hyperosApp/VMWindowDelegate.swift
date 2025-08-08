@@ -7,11 +7,18 @@ The app delegate that sets up and starts the virtual machine.
 
 import Virtualization
 
+
 let bundleExt = ".bundle"
 
+protocol VMDevices {
+    func addUSBDevice(_ sender: AnyObject?)
+    func removeUSBDevice(_ sender: AnyObject?)
+}
+
 @main
-class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegate {
+class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegate, USBWatcherDelegate {
     private var vmData:VMData
+    @IBOutlet weak var DevicesMenu: NSMenu!
     @IBOutlet weak var wizard: NSWindow!
     
     @IBOutlet var window: NSWindow!
@@ -19,10 +26,12 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
     @IBOutlet weak var virtualMachineView: VZVirtualMachineView!
     
     private var virtualMachine: VZVirtualMachine!
+    private var usbWatcher: USBWatcher!
 
     override init() {
         self.vmData = VMDefaultLinux()
         super.init()
+        self.usbWatcher = USBWatcher(delegate: self)
     }
     
     private func bundlePath() -> String {
@@ -154,6 +163,12 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
 
         return networkDevice
     }
+    
+    @available(macOS 15.0, *)
+    private func createUSBDeviceConfiguration() -> [VZUSBControllerConfiguration] {
+        let usbControllers = VZXHCIControllerConfiguration()
+        return [usbControllers]
+    }
 
     private func createGraphicsDeviceConfiguration() -> VZVirtioGraphicsDeviceConfiguration {
         let graphicsDevice = VZVirtioGraphicsDeviceConfiguration()
@@ -237,7 +252,10 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
 
         virtualMachineConfiguration.keyboards = [VZUSBKeyboardConfiguration()]
         virtualMachineConfiguration.pointingDevices = [VZUSBScreenCoordinatePointingDeviceConfiguration()]
-        virtualMachineConfiguration.consoleDevices = [createSpiceAgentConsoleDeviceConfiguration()]
+        virtualMachineConfiguration.consoleDevices = [self.createSpiceAgentConsoleDeviceConfiguration()]
+        if #available(macOS 15.0, *) {
+            virtualMachineConfiguration.usbControllers = self.createUSBDeviceConfiguration()
+        }
 
         try! virtualMachineConfiguration.validate()
         self.virtualMachine = VZVirtualMachine(configuration: virtualMachineConfiguration)
@@ -262,6 +280,15 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
                     fatalError("Virtual machine failed to start with error: \(error)")
                 default:
                     print("Virtual machine successfully started.")
+                    print("USB detected devices:")
+                    if #available(macOS 15.0, *) {
+                        for usbController in self.virtualMachine.usbControllers.publisher.sequence {
+                            print("className=\(usbController.className); classDescription=\(usbController.classDescription)")
+                            for device in usbController.usbDevices {
+                                print("uuid=\(device.uuid); description=\(device.description)")
+                            }
+                        }
+                    }
                 }
             })
         }
@@ -318,5 +345,71 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
 
     func virtualMachine(_ virtualMachine: VZVirtualMachine, networkDevice: VZNetworkDevice, attachmentWasDisconnectedWithError error: Error) {
         print("Network attachment was disconnected with error: \(error.localizedDescription)")
+    }
+    
+    // MARK: USB Discovery
+    
+    func deviceAdded(_ device: io_object_t) {
+        // print("device added: \(device.name() ?? "<unknown>") (\(device.formatted()))")
+        let menuItem: DeviceMenuItem = DeviceMenuItem()
+        menuItem.device = device
+        menuItem.title = device.name() ?? "<unknown>"
+        menuItem.isEnabled = true
+        menuItem.action = #selector(attachDeviceMenuItem(_:))
+        DevicesMenu.addItem(menuItem)
+    }
+
+    func deviceRemoved(_ device: io_object_t) {
+        // print("device removed: \(device.name() ?? "<unknown>") (\(device.formatted()))")
+        for item in DevicesMenu.items {
+            if let menuItem = item as? DeviceMenuItem, menuItem.device == device {
+                if menuItem.state == .on {
+                    self.attachDevice(menuItem.device)
+                    menuItem.state = .off
+                }
+                DevicesMenu.removeItem(menuItem)
+                break
+            }
+        }
+    }
+    
+    @objc func attachDeviceMenuItem(_ sender: DeviceMenuItem) {
+        // TODO Implement actions
+        print("attachDeviceMenuItem is not implemented")
+        sender.state = .on
+        sender.action = #selector(self.dettachDeviceMenuItem(_:))
+    }
+    
+    @objc func dettachDeviceMenuItem(_ sender: DeviceMenuItem) {
+        // TODO Implement actions
+        print("dettachDeviceMenuItem is not implemented")
+        sender.state = .off
+        sender.action = #selector(self.attachDeviceMenuItem(_:))
+    }
+    
+    @objc func attachDevice(_ device: io_object_t) {
+        print("attach device: \(device.name() ?? "<unknown>") (\(device.formatted()))")
+    }
+        
+    @objc func dettachDevice(_ device: io_object_t) {
+        print("dettach device: \(device.name() ?? "<unknown>") (\(device.formatted()))")
+    }
+        
+    // MARK: VM Actions Menu Item
+    
+    @IBAction func startVM(_ sender: Any) {
+        print("start vm")
+    }
+    
+    @IBAction func pauseVM(_ sender: Any) {
+        print("pause vm")
+    }
+
+    @IBAction func resumeVM(_ sender: Any) {
+        print("resume vm")
+    }
+
+    @IBAction func stopVM(_ sender: Any) {
+        print("stop vm")
     }
 }

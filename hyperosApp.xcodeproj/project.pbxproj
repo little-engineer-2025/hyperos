@@ -11,8 +11,10 @@
 		8FF8298D27500C060037FA83 /* VMWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF8298C27500C060037FA83 /* VMWindowDelegate.swift */; };
 		8FF8298F27500C070037FA83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FF8298E27500C070037FA83 /* Assets.xcassets */; };
 		8FF8299227500C070037FA83 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8FF8299027500C070037FA83 /* MainMenu.xib */; };
+		B30195FD2E4B941A00D9B68A /* usb.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30195FC2E4B941100D9B68A /* usb.swift */; };
 		B30BD88F2E447110000288DD /* vmdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30BD88E2E44710B000288DD /* vmdata.swift */; };
 		B30BD8912E44713A000288DD /* vmdata_builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30BD8902E447135000288DD /* vmdata_builder.swift */; };
+		B38E9EF02E4C5C61005CF625 /* device_menu_item.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E9EEF2E4C5C5A005CF625 /* device_menu_item.swift */; };
 		B3917B8A2E435E770082C557 /* HyperosAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3917B892E435E770082C557 /* HyperosAppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,8 +28,10 @@
 		8FF8298E27500C070037FA83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FF8299127500C070037FA83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8FF8299327500C070037FA83 /* hyperosApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hyperosApp.entitlements; sourceTree = "<group>"; };
+		B30195FC2E4B941100D9B68A /* usb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = usb.swift; sourceTree = "<group>"; };
 		B30BD88E2E44710B000288DD /* vmdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vmdata.swift; sourceTree = "<group>"; };
 		B30BD8902E447135000288DD /* vmdata_builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vmdata_builder.swift; sourceTree = "<group>"; };
+		B38E9EEF2E4C5C5A005CF625 /* device_menu_item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = device_menu_item.swift; sourceTree = "<group>"; };
 		B3917B892E435E770082C557 /* HyperosAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperosAppDelegate.swift; sourceTree = "<group>"; };
 		E489E24B87B74AAC6D64B249 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,6 +79,8 @@
 		8FF8298B27500C060037FA83 /* hyperosApp */ = {
 			isa = PBXGroup;
 			children = (
+				B38E9EEF2E4C5C5A005CF625 /* device_menu_item.swift */,
+				B30195FC2E4B941100D9B68A /* usb.swift */,
 				B30BD8902E447135000288DD /* vmdata_builder.swift */,
 				B30BD88E2E44710B000288DD /* vmdata.swift */,
 				8FDC7765280E2517002AA4ED /* Info.plist */,
@@ -177,8 +183,10 @@
 			files = (
 				B30BD88F2E447110000288DD /* vmdata.swift in Sources */,
 				8FF8298D27500C060037FA83 /* VMWindowDelegate.swift in Sources */,
+				B30195FD2E4B941A00D9B68A /* usb.swift in Sources */,
 				B3917B8A2E435E770082C557 /* HyperosAppDelegate.swift in Sources */,
 				B30BD8912E44713A000288DD /* vmdata_builder.swift in Sources */,
+				B38E9EF02E4C5C61005CF625 /* device_menu_item.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
