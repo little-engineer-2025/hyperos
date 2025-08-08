@@ -52,8 +52,8 @@ func VMDefaultWindows() -> VMData {
 
 func VMDefaultLinux() -> VMData {
     // https://docs.fedoraproject.org/en-US/fedora/latest/release-notes/hardware_overview/
-    let minCPU = 2
-    let minMemory = UInt64(2*1014*1024*1024)
+    let minCPU = 8
+    let minMemory = UInt64(16*1014*1024*1024)
     let minDiskSize = Int64(15*1024*1024*1024)
     var data: VMData
     data = VMData(
