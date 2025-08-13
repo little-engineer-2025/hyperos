@@ -191,6 +191,7 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
         spiceAgentPort.name = VZSpiceAgentPortAttachment.spiceAgentPortName
         spiceAgentPort.attachment = VZSpiceAgentPortAttachment()
         consoleDevice.ports[0] = spiceAgentPort
+        print("Spice port successfully configured")
 
         return consoleDevice
     }
