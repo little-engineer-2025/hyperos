@@ -199,6 +199,50 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
         return outputAudioDevice
     }
 
+    func createOrTruncateFile(at path: String) {
+        let fileManager = FileManager.default
+
+        // Verifica si el archivo existe
+        if fileManager.fileExists(atPath: path) {
+            // Si existe, trunca el archivo
+            let fileHandle: FileHandle
+            do {
+                fileHandle = try FileHandle(forWritingTo: URL(fileURLWithPath: path))
+                fileHandle.truncateFile(atOffset: 0) // Trunca el archivo
+                fileHandle.closeFile()
+                print("The file already \(path) already exists and was truncated")
+            } catch {
+                print("Error when truncating the file \(path): \(error)")
+            }
+        } else {
+            // Si no existe, crea el archivo
+            do {
+                try "".write(toFile: path, atomically: true, encoding: .utf8)
+                print("The file \(path) has been created")
+            } catch {
+                print("Error when creating the file \(path): \(error)")
+            }
+        }
+    }
+
+    private func createSerialAgentDeviceConfiguration() -> VZSerialPortConfiguration {
+        // Add a Serial terminal Console
+        // Create a file for the serial port
+        let serialPortConfiguration = VZVirtioConsoleDeviceSerialPortConfiguration()
+        let serialPortFilePath = self.bundlePath() + "/tty.usbmodem14101"
+        self.createOrTruncateFile(at:serialPortFilePath)
+        let fileHandle = FileHandle(forUpdatingAtPath: serialPortFilePath)
+        guard fileHandle != nil else {
+            fatalError("It could not open the serial port file \(serialPortFilePath)")
+        }
+        // Instancia VZFileHandleSerialPortAttachment
+        let serialPortAttachment = VZFileHandleSerialPortAttachment(fileHandleForReading: fileHandle, fileHandleForWriting: fileHandle)
+        serialPortConfiguration.attachment = serialPortAttachment
+        print("Serial port successfully configured")
+
+        return serialPortConfiguration
+    }
+
     private func createSpiceAgentConsoleDeviceConfiguration() -> VZVirtioConsoleDeviceConfiguration {
         let consoleDevice = VZVirtioConsoleDeviceConfiguration()
 
@@ -253,6 +297,7 @@ class VMWindowDelegate: NSObject, NSApplicationDelegate, VZVirtualMachineDelegat
         virtualMachineConfiguration.keyboards = [VZUSBKeyboardConfiguration()]
         virtualMachineConfiguration.pointingDevices = [VZUSBScreenCoordinatePointingDeviceConfiguration()]
         virtualMachineConfiguration.consoleDevices = [self.createSpiceAgentConsoleDeviceConfiguration()]
+        virtualMachineConfiguration.serialPorts = [self.createSerialAgentDeviceConfiguration()]
         if #available(macOS 15.0, *) {
             virtualMachineConfiguration.usbControllers = self.createUSBDeviceConfiguration()
         }
